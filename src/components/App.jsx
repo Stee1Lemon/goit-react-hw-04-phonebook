@@ -7,21 +7,21 @@ import { PhoneBook } from './App.styled';
 
 const CONTACTS = 'contacts';
 
+function getInitContacts() {
+  const contactsFromLocal = localStorage.getItem(CONTACTS);
+  if (contactsFromLocal) {
+    return JSON.parse(contactsFromLocal) ?? [];
+  }
+}
+
 export const App = () => {
-  const [contacts, setContacts] = useState(() => getInitContacts() || []);
+  const [contacts, setContacts] = useState(getInitContacts());
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
     const contactsForLocal = JSON.stringify(contacts);
     window.localStorage.setItem(CONTACTS, contactsForLocal);
   }, [contacts]);
-
-  function getInitContacts() {
-    const contactsFromLocal = localStorage.getItem(CONTACTS);
-    if (contactsFromLocal) {
-      return JSON.parse(contactsFromLocal);
-    }
-  }
 
   const addContact = formData => {
     const alreadyExist = contacts.some(
